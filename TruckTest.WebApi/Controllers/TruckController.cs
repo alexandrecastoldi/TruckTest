@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using TruckTest.Domain.Dtos;
 using TruckTest.Domain.Entities;
 using TruckTest.Domain.Interfaces.Services;
 
@@ -19,7 +20,7 @@ namespace TruckTest.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Truck truck)
+        public async Task<IActionResult> Post(TruckDto truck)
         {
             try
             {
@@ -61,7 +62,7 @@ namespace TruckTest.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, Truck truck)
+        public async Task<IActionResult> Put(int id, TruckDto truck)
         {
             try
             {

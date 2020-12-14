@@ -1,3 +1,4 @@
+using AutoMapper;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using TruckTest.Domain.Configuration;
 using TruckTest.Infrastructure.Context;
 using TruckTest.WebApi.Configuration;
 
@@ -30,7 +32,7 @@ namespace TruckTest.WebApi
             services.AddControllers()
                     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddSwaggerServices();
-            //services.AddAutoMapper(typeof(AutoMapperProfiles));
+            services.AddAutoMapper(typeof(TruckTestMappingProfile));
             services.AddCors();
         }
 

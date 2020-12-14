@@ -1,6 +1,8 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TruckTest.Domain.Dtos;
 using TruckTest.Domain.Entities;
 using TruckTest.Domain.Interfaces.Repositories;
 using TruckTest.Domain.Interfaces.Services;
@@ -10,15 +12,17 @@ namespace TruckTest.Infrastructure.Service
     public class TruckService : ITruckService
     {
         protected readonly IBaseRepository<Truck> Repository;
+        public IMapper Mapper { get; }
 
-        public TruckService(IBaseRepository<Truck> repository)
+        public TruckService(IBaseRepository<Truck> repository, IMapper mapper)
         {
             Repository = repository;
+            Mapper = mapper;
         }
 
-        public virtual async Task<int> AddAsync(Truck model)
+        public virtual async Task<int> AddAsync(TruckDto dto)
         {
-            var truck = model;
+            var truck = Mapper.Map<Truck>(dto);
             truck.LastUpdate = DateTime.Now.ToUniversalTime();
             return await Repository.Add(truck);
         }
@@ -28,25 +32,25 @@ namespace TruckTest.Infrastructure.Service
             await Repository.Delete(id);
         }
 
-        public virtual async Task<IEnumerable<Truck>> GetAllAsync()
+        public virtual async Task<IEnumerable<TruckDto>> GetAllAsync()
         {
-            IEnumerable<Truck> trucks = await Repository.All();
-            return trucks;
+            var trucks = await Repository.All();
+            return Mapper.Map<IEnumerable<TruckDto>>(trucks);
         }
 
-        public virtual async Task<Truck> GetByIdAsync(int id)
+        public virtual async Task<TruckDto> GetByIdAsync(int id)
         {
             var truck = await Repository.GetById(id);
-            return truck;
+            return Mapper.Map<TruckDto>(truck);
         }
         public async Task<bool> IsActive(int id)
         {
             return await Repository.Any(x => x.Id == id);
         }
 
-        public async Task UpdateAsync(Truck model)
+        public async Task UpdateAsync(TruckDto dto)
         {
-            var truck = model;
+            var truck = Mapper.Map<Truck>(dto);
             truck.LastUpdate = DateTime.Now.ToUniversalTime();
             await Repository.Update(truck);
         }

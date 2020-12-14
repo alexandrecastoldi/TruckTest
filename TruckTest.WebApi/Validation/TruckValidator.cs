@@ -8,7 +8,7 @@ namespace TruckTest.WebApi.Validation
     {
         public TruckValidator() {
             RuleFor(x => x.Model).IsInEnum();
-            RuleFor(x => x.YearFactory).Equal(DateTime.Now.Year).When(x => x.Id == 0);
+            RuleFor(x => x.YearFactory).Equal(DateTime.Now.Year).When(x => x.IsTransient());
             RuleFor(x => x.YearModel).GreaterThanOrEqualTo(x => x.YearFactory).LessThanOrEqualTo(x => x.YearFactory + 1);
         }
     }
